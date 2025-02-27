@@ -4,7 +4,7 @@ import instance from "../utils/axiosConfig";
 import FishItemCard from "../components/FishItemCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorMessage from "../components/ErrorMessage";
-import { useCart } from "../context/CartContext"; // Import useCart
+import { useCart } from "../context/CartContext";
 
 const FishItemsPage = () => {
   const [items, setItems] = useState([]);
@@ -16,7 +16,7 @@ const FishItemsPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-  const { setCartItems } = useCart(); // Use setCartItems from CartContext
+  const { setCartItems } = useCart();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,17 +65,13 @@ const FishItemsPage = () => {
     try {
       await instance.post("/cart/add", { itemId, quantity: 1 });
 
-      // After successfully adding item, fetch the updated cart
       const cartResponse = await instance.get("/cart");
-      setCartItems(cartResponse.data.items); // Update CartContext with the latest cart items
-
-      // Show success toast (you can implement this)
+      setCartItems(cartResponse.data.items);
       console.log("Item added to cart successfully");
     } catch (err) {
       if (err.response?.status === 401) {
         navigate("/signin");
       }
-      // Show error toast (you can implement this)
       console.error("Error adding item to cart:", err);
     }
   };

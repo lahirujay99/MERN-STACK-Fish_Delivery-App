@@ -3,7 +3,6 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white mt-20 md:mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Company Information */}
           <div className="space-y-4">
             <h3 className="text-lg font-bold">FreshFish Delivery</h3>
             <p className="text-sm text-gray-300">
@@ -11,8 +10,6 @@ const Footer = () => {
               ocean&apos;s best directly to your doorstep.
             </p>
           </div>
-
-          {/* Social Media Links */}
           <div className="space-y-4">
             <h3 className="text-lg font-bold">Follow Us</h3>
             <div className="flex space-x-4">
@@ -63,8 +60,6 @@ const Footer = () => {
               </a>
             </div>
           </div>
-
-          {/* Contact Information */}
           <div className="space-y-4">
             <h3 className="text-lg font-bold">Contact Us</h3>
             <div className="text-sm text-gray-300 space-y-2">
@@ -75,8 +70,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
-        {/* Copyright Notice */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-300">
           <p>
             &copy; {new Date().getFullYear()} FreshFish Delivery. All rights

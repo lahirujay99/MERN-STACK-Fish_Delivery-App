@@ -7,7 +7,6 @@ export default function MainLayout() {
   const { user } = useAuth();
   return (
     <div className="flex flex-col min-h-screen">
-      {/* {user?.role !== "admin" && <Navbar />} */}
       <Navbar />
       <div className="flex-grow mt-14">
         <Router />

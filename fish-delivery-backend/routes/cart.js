@@ -52,47 +52,41 @@ router.post("/add", protect, async (req, res) => {
   }
 });
 
-// @route   PUT /api/cart/
 // @desc    Update cart item quantity
-// @access  Private
 router.put("/", protect, async (req, res) => {
   const { itemId, quantity } = req.body;
 
-  console.log("PUT /api/cart/ route HIT"); // ADD THIS LINE for debugging
-  console.log("Request Body:", req.body); // ADD THIS LINE for debugging
+  console.log("PUT /api/cart/ route HIT");
+  console.log("Request Body:", req.body);
 
   try {
     let cart = await Cart.findOne({ user: req.user._id });
 
     if (!cart) {
-      return res.status(404).json({ message: "Cart not found" }); // This "not found" is about CART, not fish item
+      return res.status(404).json({ message: "Cart not found" });
     }
 
     const existingItemIndex = cart.items.findIndex(
       (i) => i.item.toString() === itemId
     );
 
-    console.log("Received itemId for update:", itemId); // Log the itemId from request body
+    console.log("Received itemId for update:", itemId);
     console.log(
       "Cart Items in DB:",
       cart.items.map((item) => item.item.toString())
-    ); // Log _id of items in cart
+    );
     console.log("existingItemIndex:", existingItemIndex); // Log index found or -1
 
     if (existingItemIndex !== -1) {
-      // Update existing item quantity
       if (quantity <= 0) {
-        // If quantity is zero or less, remove the item from the cart
         cart.items.splice(existingItemIndex, 1);
       } else {
         cart.items[existingItemIndex].quantity = quantity;
       }
     } else if (quantity > 0) {
-      // Item not in cart, handle error or adding a new item as needed
-      // For update quantity, it should ideally be in the cart already.
       return res
         .status(404)
-        .json({ message: "Item not found in cart to update" }); // "Item not found" IN CART.
+        .json({ message: "Item not found in cart to update" });
     }
 
     cart.total = cart.items.reduce(
@@ -111,9 +105,7 @@ router.put("/", protect, async (req, res) => {
   }
 });
 
-// @route   DELETE /api/cart/remove/:itemId
 // @desc    Remove an item from the cart
-// @access  Private
 router.delete("/remove/:itemId", protect, async (req, res) => {
   const itemId = req.params.itemId;
 
@@ -149,8 +141,6 @@ router.delete("/remove/:itemId", protect, async (req, res) => {
 });
 
 // @route   DELETE /api/cart/clear
-// @desc    Clear the entire cart
-// @access  Private
 router.delete("/clear", protect, async (req, res) => {
   try {
     let cart = await Cart.findOne({ user: req.user._id });

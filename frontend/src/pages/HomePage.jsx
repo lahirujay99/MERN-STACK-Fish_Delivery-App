@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  // Mock data for featured fish items
+  //Fake Data array for inital display
   const featuredItems = [
     {
       id: 1,

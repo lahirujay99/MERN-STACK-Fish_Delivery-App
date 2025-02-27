@@ -4,10 +4,8 @@ const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
-
-  // Implement the clearCart function here:
   const clearCart = () => {
-    setCartItems([]); // Simply set cartItems state to an empty array to clear the cart.
+    setCartItems([]);
   };
 
   return (

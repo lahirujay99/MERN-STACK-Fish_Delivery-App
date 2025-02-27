@@ -50,7 +50,6 @@ const CheckoutPage = () => {
         total: calculateTotal(),
       };
 
-      // Update to use axios instance
       const response = await instance.post("/orders", orderData);
 
       if (response.status !== 201) throw new Error("Order submission failed");
@@ -70,7 +69,7 @@ const CheckoutPage = () => {
       (sum, item) => sum + item.price * item.quantity,
       0
     );
-    const deliveryFee = subtotal > 50 ? 0 : 5; // Example delivery fee logic
+    const deliveryFee = subtotal > 50 ? 0 : 5;
     return subtotal + deliveryFee;
   };
 

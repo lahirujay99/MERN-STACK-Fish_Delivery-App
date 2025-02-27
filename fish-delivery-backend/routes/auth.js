@@ -47,7 +47,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Add to your auth routes
 router.get("/profile", async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];

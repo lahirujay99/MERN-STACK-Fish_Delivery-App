@@ -35,7 +35,7 @@ const CartPage = () => {
     try {
       const updateUrl = `/cart/`;
       await instance.put(updateUrl, {
-        itemId: item.item._id, // Use item.item._id
+        itemId: item.item._id,
         quantity: newQuantity,
       });
       const cartResponse = await instance.get("/cart");
@@ -140,7 +140,7 @@ const CartPage = () => {
                     {item?.item?.name}
                   </h3>
                   <button
-                    onClick={() => handleRemoveItem(item.item._id)} // Corrected line: use item.item._id
+                    onClick={() => handleRemoveItem(item.item._id)}
                     className="text-red-600 hover:text-red-700"
                   >
                     ✕

@@ -3,9 +3,7 @@ import FishItem from "../models/FishItem.js";
 import { protect, admin } from "../middleware/auth.js";
 const router = express.Router();
 
-// @desc    Get all categories
 // @route   GET /api/items/categories
-// @access  Public
 router.get("/categories", async (req, res) => {
   try {
     const categories = await FishItem.distinct("category");
@@ -44,9 +42,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// @desc    Get all fish items (admin)
 // @route   GET /api/items/admin
-// @access  Private/Admin
 router.get("/admin", protect, admin, async (req, res) => {
   try {
     const items = await FishItem.find({});
@@ -56,9 +52,7 @@ router.get("/admin", protect, admin, async (req, res) => {
   }
 });
 
-// @desc    Create new fish item
 // @route   POST /api/items
-// @access  Private/Admin
 router.post("/", protect, admin, async (req, res) => {
   try {
     const item = new FishItem({
@@ -73,7 +67,7 @@ router.post("/", protect, admin, async (req, res) => {
     const createdItem = await item.save();
     res.status(201).json(createdItem);
   } catch (error) {
-    console.error(error); // Add this to see detailed error
+    console.error(error);
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors).map((err) => err.message);
       return res
@@ -84,9 +78,7 @@ router.post("/", protect, admin, async (req, res) => {
   }
 });
 
-// @desc    Update fish item
 // @route   PUT /api/items/:id
-// @access  Private/Admin
 router.put("/:id", protect, admin, async (req, res) => {
   try {
     const item = await FishItem.findById(req.params.id);
@@ -106,15 +98,12 @@ router.put("/:id", protect, admin, async (req, res) => {
   }
 });
 
-// @desc    Delete fish item
 // @route   DELETE /api/items/:id
-// @access  Private/Admin
 router.delete("/:id", protect, admin, async (req, res) => {
   try {
-    const deletedItem = await FishItem.findByIdAndDelete(req.params.id); // Use findByIdAndDelete
+    const deletedItem = await FishItem.findByIdAndDelete(req.params.id);
 
     if (!deletedItem) {
-      // findByIdAndDelete returns null if no document was found and deleted
       return res.status(404).json({ message: "Item not found" });
     }
 

@@ -32,7 +32,7 @@ const Navbar = () => {
     <nav className="fixed w-full top-0 bg-white shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          {/* Left side - Logo and main nav */}
+          {/* Left side */}
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">
               <span className="text-2xl font-bold text-blue-600">
@@ -46,7 +46,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Right side - Auth and Cart */}
+          {/* Right side */}
           <div className="flex items-center gap-4">
             {/* Cart Icon */}
             <Link to="/cart" className="relative p-2 hover:text-blue-600">

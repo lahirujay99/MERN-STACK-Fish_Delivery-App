@@ -12,7 +12,6 @@ export function AuthProvider({ children }) {
         localStorage.getItem("token") || sessionStorage.getItem("token");
       if (token) {
         try {
-          // Use the axios instance instead of direct axios
           const response = await instance.get("/auth/profile");
           setUser(response.data);
         } catch (error) {

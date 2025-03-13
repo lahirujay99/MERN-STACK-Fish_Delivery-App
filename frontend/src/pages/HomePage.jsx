@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom"; 
+import { useAuth } from "../context/AuthContext"; 
 
 const HomePage = () => {
+  const { user } = useAuth(); // Get user object from AuthContext
+  const location = useLocation(); 
+
   //Fake Data array for inital display
   const featuredItems = [
     {
@@ -49,7 +53,8 @@ const HomePage = () => {
             Premium quality seafood straight from the ocean to your doorstep
           </p>
           <Link
-            to="/items"
+            to={user ? "/items" : "/signin"} // Conditional routing here!
+            state={!user ? { from: location } : null} // Pass location if not logged in
             className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
           >
             Shop Now
@@ -106,39 +111,16 @@ const HomePage = () => {
                   alt={item.name}
                   className="w-full h-48 object-cover"
                 />
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold mb-2">{item.name}</h3>
-                  <p className="text-xl font-bold text-blue-600 mb-4">
-                    LKR {item.price}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <span
-                      className={`text-sm ${
-                        item.stock > 0 ? "text-green-600" : "text-red-600"
-                      }`}
-                    >
-                      {item.stock > 0
-                        ? `${item.stock} in stock`
-                        : "Out of stock"}
-                    </span>
-                    <button
-                      className={`px-4 py-2 rounded-lg ${
-                        item.stock > 0
-                          ? "bg-blue-600 text-white hover:bg-blue-700"
-                          : "bg-gray-300 text-gray-600 cursor-not-allowed"
-                      }`}
-                      disabled={item.stock === 0}
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
+                <div className="p-4 flex flex-row justify-center">
+                  <h3 className="text-lg font-semibold mb-2 text-cyan-800">{item.name}</h3>
                 </div>
               </div>
             ))}
           </div>
           <div className="text-center mt-8">
             <Link
-              to="/items"
+              to={user ? "/items" : "/signin"} // Conditional routing for 'View All Products' too, if desired
+              state={!user ? { from: location } : null} //  Pass location if not logged in for 'View All Products' too
               className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
             >
               View All Products

@@ -42,7 +42,8 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex md:items-center md:ml-6">
-              <NavLinks />
+              {/* Conditionally render NavLinks based on user login */}
+              {user && <NavLinks />}
             </div>
           </div>
 
@@ -167,7 +168,8 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t">
           <div className="px-4 py-2">
-            <NavLinks mobile />
+            {/* Conditionally render NavLinks based on user login */}
+            {user && <NavLinks mobile />}
 
             <div className="pt-4 border-t">
               {user ? (

@@ -86,4 +86,23 @@ router.post("/", protect, async (req, res) => {
   }
 });
 
+// @route   GET /api/orders/me
+// @desc    Get logged in user orders
+// @access  Private
+router.get("/me", protect, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id })
+      .populate({
+        path: 'items.item', // Populate the 'item' field in 'items' array
+        model: 'FishItem'   // Specify the model to populate with
+      })
+      .sort({ createdAt: -1 }); // Sort by creation date, newest first
+
+    res.json(orders);
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    res.status(500).json({ message: "Error fetching orders", error: error.message });
+  }
+});
+
 export default router;

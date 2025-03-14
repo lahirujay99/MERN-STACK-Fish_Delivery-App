@@ -11,11 +11,11 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(
-  "pk_test_51O2vghBKECZr65tnEuIDOUnFhZIzXfze1rHhfv5qk5jIckKIgHrCvSKJV1JOlVbHOlnz7NGBqff6tAKTO6pRi3RN00eK3945cD" // <-- Put your test publishable key here!
+  "pk_test_51O2vghBKECZr65tnEuIDOUnFhZIzXfze1rHhfv5qk5jIckKIgHrCvSKJV1JOlVbHOlnz7NGBqff6tAKTO6pRi3RN00eK3945cD"
 );
 
 const CheckoutForm = () => {
-  const { cartItems, clearCart } = useCart();
+  const { cartItems, clearCart } = useCart(); // Get clearCart from CartContext
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
@@ -65,7 +65,7 @@ const CheckoutForm = () => {
 
       if (deliveryInformationData.paymentMethod === "card") {
         if (!stripe || !elements) {
-          return; 
+          return;
         }
 
         const cardElement = elements.getElement(CardElement);
@@ -89,14 +89,14 @@ const CheckoutForm = () => {
         items: cartItems,
         deliveryInformation: deliveryInformationData,
         total: calculateTotal(),
-        paymentMethodId: paymentMethodId, 
+        paymentMethodId: paymentMethodId,
       };
 
       const response = await instance.post("/orders", orderData);
 
       if (response.status !== 201) throw new Error("Order submission failed");
 
-      clearCart();
+      await clearCart(); // <--- CALLING CLEAR CART HERE AFTER SUCCESSFUL ORDER!
       navigate("/", { state: { orderSuccess: true } });
     } catch (error) {
       console.error("Checkout error:", error);
@@ -262,6 +262,9 @@ const CheckoutForm = () => {
             </div>
           )}
 
+          {errors.submit && (
+            <p className="text-red-500 text-sm mt-4">{errors.submit}</p>
+          )}
           <button
             type="submit"
             disabled={isSubmitting}
@@ -269,7 +272,6 @@ const CheckoutForm = () => {
           >
             {isSubmitting ? "Processing..." : "Place Order"}
           </button>
-
           {errors.submit && (
             <p className="text-red-500 text-sm mt-4">{errors.submit}</p>
           )}
@@ -317,19 +319,6 @@ const CheckoutForm = () => {
               </div>
             </div>
           </div>
-
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            className="w-full bg-blue-600 text-white py-3 rounded mt-6 hover:bg-blue-700 disabled:opacity-50"
-          >
-            {isSubmitting ? "Processing..." : "Place Order"}
-          </button>
-
-          {errors.submit && (
-            <p className="text-red-500 text-sm mt-4">{errors.submit}</p>
-          )}
         </div>
       </div>
     </div>

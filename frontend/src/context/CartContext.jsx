@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import instance from "../utils/axiosConfig"; // Import your axios instance
+import instance from "../utils/axiosConfig"; 
 
 const CartContext = createContext();
 
@@ -9,12 +9,11 @@ export function CartProvider({ children }) {
   // Updated clearCart function to call backend
   const clearCart = async () => {
     try {
-      await instance.delete('/cart/clear'); // Call your backend endpoint to clear the cart
+      await instance.delete('/cart/clear'); // Call backend endpoint to clear the cart
       setCartItems([]); // After successful backend clear, clear frontend state
       console.log("Cart cleared successfully (frontend and backend)");
     } catch (error) {
       console.error("Error clearing cart from backend:", error);
-      // Handle error if cart clearing fails on backend (optional: display error to user)
     }
   };
 

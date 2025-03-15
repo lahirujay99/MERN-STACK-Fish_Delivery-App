@@ -10,8 +10,8 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const deliveryFee = 5; // Fixed delivery fee
-  const [removeItemError, setRemoveItemError] = useState(null); // State for remove item error
+  const deliveryFee = 50; // Fixed delivery fee
+  const [removeItemError, setRemoveItemError] = useState(null); 
 
   useEffect(() => {
     const fetchCart = async () => {

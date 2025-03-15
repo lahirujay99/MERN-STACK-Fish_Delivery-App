@@ -1,26 +1,26 @@
-// frontend/src/pages/ProfilePage.js
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; 
 import instance from "../utils/axiosConfig";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorMessage from "../components/ErrorMessage";
 
 const ProfilePage = () => {
-  const { user, logout, setUser } = useAuth(); // Get setUser from AuthContext to update user after profile update
+  // Call useAuth HOOK at the TOP LEVEL of the component
+  const { user, logout, setUser } = useAuth();
+
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState({
     username: "",
     email: "",
-    password: "", // For new password input (optional)
-    confirmPassword: "", // For confirm new password
+    password: "",
+    confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [updateError, setUpdateError] = useState({}); // For form-specific errors
-
+  const [updateError, setUpdateError] = useState({});
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -31,7 +31,7 @@ const ProfilePage = () => {
         setProfileData({
           username: response.data.username,
           email: response.data.email,
-          password: "", // Clear password fields on load
+          password: "",
           confirmPassword: "",
         });
       } catch (err) {
@@ -45,14 +45,14 @@ const ProfilePage = () => {
     if (user) {
       fetchProfile();
     } else {
-      navigate('/signin'); // Redirect to signin if not logged in
+      navigate('/signin');
     }
   }, [user, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfileData({ ...profileData, [name]: value });
-    setUpdateError(prevErrors => ({ ...prevErrors, [name]: "" })); // Clear error for this input on change
+    setUpdateError(prevErrors => ({ ...prevErrors, [name]: "" }));
   };
 
   const handleSubmit = async (e) => {
@@ -60,33 +60,27 @@ const ProfilePage = () => {
     setLoading(true);
     setError("");
     setSuccessMessage("");
-    setUpdateError({}); // Reset form errors on submit
+    setUpdateError({});
 
-    // Basic password confirmation check on frontend
     if (profileData.password && profileData.password !== profileData.confirmPassword) {
       setUpdateError({ confirmPassword: "Passwords do not match" });
       setLoading(false);
       return;
     }
 
-
     try {
       const updatePayload = {
         username: profileData.username,
         email: profileData.email,
       };
-      if (profileData.password) { // Only send password if it's being updated
+      if (profileData.password) {
         updatePayload.password = profileData.password;
       }
 
       const response = await instance.put("/auth/profile", updatePayload);
       setSuccessMessage(response.data.message || "Profile updated successfully!");
       setError("");
-
-      // Update user context with new user details from the backend after successful update
-      setUser(response.data); // Assuming backend returns updated user object
-
-      // Clear password fields after successful update
+      setUser(response.data); // Use the setUser from the top-level hook call.
       setProfileData(prevState => ({
         ...prevState,
         password: "",
@@ -96,12 +90,12 @@ const ProfilePage = () => {
     } catch (err) {
       console.error("Profile update error:", err);
       setError(err.response?.data?.message || "Failed to update profile.");
-      if (err.response?.data?.errors) { // If backend sends specific validation errors, display them
+      if (err.response?.data?.errors) {
         const backendValidationErrors = {};
         for (const errorKey in err.response.data.errors) {
           backendValidationErrors[errorKey] = err.response.data.errors[errorKey].message;
         }
-        setUpdateError(backendValidationErrors); // Set form-specific errors from backend
+        setUpdateError(backendValidationErrors);
       }
 
     } finally {
@@ -111,7 +105,7 @@ const ProfilePage = () => {
 
   const handleDeleteAccount = async () => {
     if (!deleteConfirmation) {
-      setDeleteConfirmation(true); // Show confirmation message first time button is clicked
+      setDeleteConfirmation(true);
       return;
     }
 
@@ -120,17 +114,16 @@ const ProfilePage = () => {
     setSuccessMessage("");
     try {
       await instance.delete("/auth/profile");
-      logout(); // Clear user session and token from frontend
-      navigate("/", { replace: true }); // Redirect to homepage after deletion
+      logout();
+      navigate("/", { replace: true });
     } catch (err) {
       console.error("Account deletion error:", err);
       setError(err.response?.data?.message || "Failed to delete account.");
     } finally {
       setLoading(false);
-      setDeleteConfirmation(false); // Reset confirmation state
+      setDeleteConfirmation(false);
     }
   };
-
 
   if (loading) {
     return <LoadingSpinner />;
@@ -140,10 +133,9 @@ const ProfilePage = () => {
     return <ErrorMessage message={error} />;
   }
 
-  if (!user) { // Should not reach here due to useEffect redirect, but for safety
+  if (!user) {
     return <ErrorMessage message="Please sign in to view your profile." />;
   }
-
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-xl">
@@ -214,7 +206,6 @@ const ProfilePage = () => {
         </button>
       </form>
 
-
       <div className="mt-8 border-t pt-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Account Deletion</h2>
         {!deleteConfirmation ? (
@@ -244,8 +235,6 @@ const ProfilePage = () => {
           </div>
         )}
       </div>
-
-
     </div>
   );
 };

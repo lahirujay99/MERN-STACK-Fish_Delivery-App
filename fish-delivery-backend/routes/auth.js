@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { protect } from "../middleware/auth.js"; // Import protect middleware
+import { protect } from "../middleware/auth.js"; 
 import bcrypt from 'bcryptjs'; // Import bcrypt for password hashing
 
 const router = express.Router();
@@ -74,7 +74,7 @@ router.put("/profile", protect, async (req, res) => {
     const user = await User.findById(req.user._id); // Get the logged-in user
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" }); // Should not happen due to protect middleware
+      return res.status(404).json({ message: "User not found" }); // not happen due to protect middleware
     }
 
     // Update fields if provided

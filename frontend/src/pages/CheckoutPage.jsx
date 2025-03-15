@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import instance from "../utils/axiosConfig";
@@ -15,7 +15,7 @@ const stripePromise = loadStripe(
 );
 
 const CheckoutForm = () => {
-  const { cartItems, clearCart } = useCart(); // Get clearCart from CartContext
+  const { cartItems, clearCart } = useCart(); 
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
@@ -58,7 +58,7 @@ const CheckoutForm = () => {
     }
 
     setIsSubmitting(true);
-    setPaymentError(null); // Clear any previous payment errors
+    setPaymentError(null); 
 
     try {
       let paymentMethodId = null;
@@ -82,7 +82,7 @@ const CheckoutForm = () => {
           return;
         }
 
-        paymentMethodId = paymentMethod.id; // Get the PaymentMethod ID from Stripe
+        paymentMethodId = paymentMethod.id; 
       }
 
       const orderData = {
@@ -96,7 +96,7 @@ const CheckoutForm = () => {
 
       if (response.status !== 201) throw new Error("Order submission failed");
 
-      await clearCart(); // <--- CALLING CLEAR CART HERE AFTER SUCCESSFUL ORDER!
+      await clearCart(); 
       navigate("/", { state: { orderSuccess: true } });
     } catch (error) {
       console.error("Checkout error:", error);

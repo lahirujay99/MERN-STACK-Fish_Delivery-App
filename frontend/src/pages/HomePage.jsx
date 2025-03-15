@@ -53,7 +53,7 @@ const HomePage = () => {
             Premium quality seafood straight from the ocean to your doorstep
           </p>
           <Link
-            to={user ? "/items" : "/signin"} // Conditional routing here!
+            to={user ? "/items" : "/signin"} // Conditional routing
             state={!user ? { from: location } : null} // Pass location if not logged in
             className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
           >
@@ -119,7 +119,7 @@ const HomePage = () => {
           </div>
           <div className="text-center mt-8">
             <Link
-              to={user ? "/items" : "/signin"} // Conditional routing for 'View All Products' too, if desired
+              to={user ? "/items" : "/signin"} // Conditional routing 
               state={!user ? { from: location } : null} //  Pass location if not logged in for 'View All Products' too
               className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
             >

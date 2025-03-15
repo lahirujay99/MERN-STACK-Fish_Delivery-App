@@ -133,7 +133,7 @@ router.delete("/remove/:itemId", protect, async (req, res) => {
     const populatedCart = await Cart.findOne({ user: req.user._id }).populate(
       "items.item"
     );
-    res.json(populatedCart); // Or send success message and updated cart info.
+    res.json(populatedCart); // send success message and updated cart info.
   } catch (error) {
     console.error("Error removing item from cart:", error);
     res.status(500).json({ message: "Server error removing item from cart" });

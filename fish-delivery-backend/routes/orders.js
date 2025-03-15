@@ -93,8 +93,8 @@ router.get("/me", protect, async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id })
       .populate({
-        path: 'items.item', // Populate the 'item' field in 'items' array
-        model: 'FishItem'   // Specify the model to populate with
+        path: 'items.item', 
+        model: 'FishItem'   
       })
       .sort({ createdAt: -1 }); // Sort by creation date, newest first
 
